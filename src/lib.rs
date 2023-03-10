@@ -36,7 +36,7 @@ impl Plugin for GamePlugin {
             .add_plugin(plugins::SpawnPlugin)
             .add_system(systems::cls.label(ClsSystem))
             .add_system_set(
-                SystemSet::new()
+                ConditionSet::new()
                     .label(DrawSystemSet)
                     .after(ClsSystem)
                     .with_system(systems::draw_map)
@@ -52,8 +52,10 @@ impl Plugin for GamePlugin {
 fn setup(mut cmds: Commands) {
     let mut rng = RandomNumbers::new();
     let schema = Schema::new(&mut rng);
-    cmds.spawn((Player, Position(Point::new(40, 25))));
+    cmds.spawn((Player, Position(schema.player_start)));
     cmds.insert_resource(schema.map);
+    //cmds.insert_resource(BCamera::new(schema.player_start));
+    cmds.insert_resource(NextState(TurnState::AwaitInput));
     info!("Setup finished.");
 }
 

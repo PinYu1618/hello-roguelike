@@ -2,12 +2,11 @@ use crate::prelude::*;
 
 pub fn draw_entity(
     ctx: Res<BracketContext>,
-    //    #[resource] camera: &Camera,
+    /*bcamera: Res<BCamera>,*/
     query: Query<(&Position, &Render)>,
 ) {
     let mut draw_batch = ctx.new_draw_batch();
     draw_batch.target(ENTITY_CONSOLE);
-    //let offset = Point::new(camera.left_x, camera.top_y);
     let offset = Point::new(0, 0);
 
     query.iter().for_each(|(pos, render)| {
