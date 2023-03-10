@@ -1,14 +1,5 @@
-mod prelude {
-    pub use bevy::prelude::*;
-    pub const SCREEN_WIDTH: i32 = 80;
-    pub const SCREEN_HEIGHT: i32 = 50;
-    pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
-    pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 2;
-}
-
 use bracket_bevy::BTermBuilder;
-
-use crate::prelude::*;
+use hello_bracket_bevy::{prelude::*, GamePlugin};
 
 fn main() {
     let bterm = BTermBuilder::empty()
@@ -25,5 +16,6 @@ fn main() {
     App::new()
         .add_plugin(bterm)
         .add_plugins(DefaultPlugins)
+        .add_plugin(GamePlugin)
         .run();
 }
