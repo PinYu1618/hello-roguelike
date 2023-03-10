@@ -19,6 +19,7 @@ impl Player {
                     glyph: to_cp437('@'),
                 },
             });
+            info!("Spawned new player.");
         }
     }
 }

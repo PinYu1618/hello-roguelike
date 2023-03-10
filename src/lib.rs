@@ -7,7 +7,9 @@ pub mod systems;
 
 pub mod prelude {
     pub use bevy::prelude::*;
-    pub use bracket_bevy::prelude::{BracketContext, ColorPair, Point, RandomNumbers};
+    pub use bracket_bevy::prelude::{
+        to_cp437, BracketContext, ColorPair, Point, RandomNumbers, Rect as BRect, BLACK, WHITE,
+    };
     pub use iyes_loopless::prelude::*;
 
     pub const SCREEN_WIDTH: i32 = 80;
@@ -32,8 +34,18 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_loopless_state(TurnState::Paused)
             .add_plugin(plugins::SpawnPlugin)
-            .add_system_set(ConditionSet::new().with_system(draw_entity).into())
-            .add_startup_system(setup);
+            .add_system(systems::cls.label(ClsSystem))
+            .add_system_set(
+                SystemSet::new()
+                    .label(DrawSystemSet)
+                    .after(ClsSystem)
+                    .with_system(systems::draw_map)
+                    .with_system(systems::draw_entity)
+                    .with_system(systems::draw_ui)
+                    .into(),
+            )
+            .add_startup_system(setup)
+            .add_system(print_state_on_change);
     }
 }
 
@@ -42,4 +54,11 @@ fn setup(mut cmds: Commands) {
     let schema = Schema::new(&mut rng);
     cmds.spawn((Player, Position(Point::new(40, 25))));
     cmds.insert_resource(schema.map);
+    info!("Setup finished.");
+}
+
+fn print_state_on_change(turn_state: Res<CurrentState<TurnState>>) {
+    if turn_state.is_changed() {
+        info!("{:?}", turn_state);
+    }
 }

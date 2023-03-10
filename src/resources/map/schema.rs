@@ -1,11 +1,10 @@
-use bracket_bevy::prelude::Rect;
-
 use crate::prelude::*;
 
 const NUM_ROOMS: usize = 20;
+
 pub struct Schema {
     pub map: Map,
-    pub rooms: Vec<Rect>,
+    pub rooms: Vec<BRect>,
     pub player_start: Point,
 }
 
@@ -29,7 +28,7 @@ impl Schema {
 
     fn build_random_rooms(&mut self, rng: &mut RandomNumbers) {
         while self.rooms.len() < NUM_ROOMS {
-            let room = Rect::with_size(
+            let room = BRect::with_size(
                 rng.range(1, SCREEN_WIDTH - 10),
                 rng.range(1, SCREEN_HEIGHT - 10),
                 rng.range(2, 10),
