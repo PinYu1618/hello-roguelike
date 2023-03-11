@@ -4,6 +4,6 @@
 
 ```rust
 cargo install trunk
-cd hello-bracket-bevy
+cd hello-roguelike
 trunk serve
 ```

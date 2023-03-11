@@ -14,8 +14,8 @@ pub mod prelude {
 
     pub const SCREEN_WIDTH: i32 = 80;
     pub const SCREEN_HEIGHT: i32 = 50;
-    pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
-    pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 2;
+    pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 1; //2
+    pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 1; //2
     pub const MAP_CONSOLE: usize = 0;
     pub const ENTITY_CONSOLE: usize = 1;
     pub const UI_CONSOLE: usize = 2;
@@ -45,22 +45,32 @@ impl Plugin for GamePlugin {
                     .into(),
             )
             .add_startup_system(setup)
-            .add_system(print_state_on_change);
+            .add_system(print_state_on_change)
+            .add_system(print_camera_on_change);
     }
 }
 
 fn setup(mut cmds: Commands) {
     let mut rng = RandomNumbers::new();
     let schema = Schema::new(&mut rng);
+    //cmds.spawn((Player, Position(schema.player_start)));
     cmds.spawn((Player, Position(schema.player_start)));
     cmds.insert_resource(schema.map);
     //cmds.insert_resource(BCamera::new(schema.player_start));
-    cmds.insert_resource(NextState(TurnState::AwaitInput));
     info!("Setup finished.");
+    cmds.insert_resource(NextState(TurnState::AwaitInput));
 }
+
+//fn camera_follow(camera_q: Query<&mut Transform, With<Camera>>, player_q: Query<&Position, With<Player>>) {}
 
 fn print_state_on_change(turn_state: Res<CurrentState<TurnState>>) {
     if turn_state.is_changed() {
         info!("{:?}", turn_state);
+    }
+}
+
+fn print_camera_on_change(camera_q: Query<&Transform, (With<Camera>, Changed<Transform>)>) {
+    for camera_transform in camera_q.iter() {
+        info!("{:?}", camera_transform);
     }
 }
