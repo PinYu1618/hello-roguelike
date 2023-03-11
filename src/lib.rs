@@ -34,6 +34,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_loopless_state(TurnState::Paused)
             .add_plugin(plugins::SpawnPlugin)
+            .add_plugin(plugins::DevPlugin)
             .add_system(systems::cls.label(ClsSystem))
             .add_system_set(
                 ConditionSet::new()
