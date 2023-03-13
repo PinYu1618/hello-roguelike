@@ -14,6 +14,8 @@ pub mod prelude {
 
     pub const SCREEN_WIDTH: i32 = 80;
     pub const SCREEN_HEIGHT: i32 = 50;
+    pub const MAP_WIDTH: i32 = SCREEN_WIDTH;
+    pub const MAP_HEIGHT: i32 = 43;
     pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 1; //2
     pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 1; //2
     pub const MAP_CONSOLE: usize = 0;

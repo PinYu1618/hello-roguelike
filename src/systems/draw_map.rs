@@ -3,8 +3,8 @@ use crate::prelude::*;
 pub fn draw_map(ctx: Res<BracketContext>, map: Res<Map> /*, bcamera: Res<BCamera>*/) {
     let mut draw_batch = ctx.new_draw_batch();
     draw_batch.target(MAP_CONSOLE);
-    for y in 0..=SCREEN_HEIGHT {
-        for x in 0..SCREEN_WIDTH {
+    for y in 0..=MAP_HEIGHT {
+        for x in 0..MAP_WIDTH {
             let pt = Point::new(x, y);
             let offset = Point::new(0, 0);
             if map.in_bounds(pt) {

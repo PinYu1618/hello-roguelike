@@ -29,8 +29,8 @@ impl Schema {
     fn build_random_rooms(&mut self, rng: &mut RandomNumbers) {
         while self.rooms.len() < NUM_ROOMS {
             let room = BRect::with_size(
-                rng.range(1, SCREEN_WIDTH - 10),
-                rng.range(1, SCREEN_HEIGHT - 10),
+                rng.range(1, MAP_WIDTH - 10),
+                rng.range(1, MAP_HEIGHT - 10),
                 rng.range(2, 10),
                 rng.range(2, 10),
             );
@@ -42,7 +42,7 @@ impl Schema {
             }
             if !overlap {
                 room.for_each(|p| {
-                    if p.x > 0 && p.x < SCREEN_WIDTH && p.y > 0 && p.y < SCREEN_HEIGHT {
+                    if p.x > 0 && p.x < MAP_WIDTH && p.y > 0 && p.y < MAP_HEIGHT {
                         let idx = map_idx(p.x, p.y);
                         self.map.tiles[idx] = TileType::Floor;
                     }

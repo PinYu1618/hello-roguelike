@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-#[derive(Component, Debug)]
+#[derive(Component, Clone, PartialEq, Debug)]
 pub struct Position(pub Point);
 
 impl Position {

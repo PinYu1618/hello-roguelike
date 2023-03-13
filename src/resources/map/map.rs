@@ -1,6 +1,6 @@
 use super::*;
 
-const NUM_TILES: usize = (SCREEN_WIDTH * SCREEN_HEIGHT) as usize;
+const NUM_TILES: usize = (MAP_WIDTH * MAP_HEIGHT) as usize;
 
 #[derive(Resource)]
 pub struct Map {
@@ -15,7 +15,7 @@ impl Map {
     }
 
     pub fn in_bounds(&self, point: Point) -> bool {
-        point.x >= 0 && point.x < SCREEN_WIDTH && point.y >= 0 && point.y < SCREEN_HEIGHT
+        point.x >= 0 && point.x < MAP_WIDTH && point.y >= 0 && point.y < MAP_HEIGHT
     }
 
     pub fn try_idx(&self, point: Point) -> Option<usize> {
