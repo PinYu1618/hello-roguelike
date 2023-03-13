@@ -15,3 +15,19 @@ pub struct ClsSystem;
 
 #[derive(SystemLabel)]
 pub struct DrawSystemSet;
+
+pub struct SystemsPlugin;
+
+impl Plugin for SystemsPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_system(cls.label(ClsSystem)).add_system_set(
+            ConditionSet::new()
+                .label(DrawSystemSet)
+                .after(ClsSystem)
+                .with_system(draw_map)
+                .with_system(draw_entity)
+                .with_system(draw_ui)
+                .into(),
+        );
+    }
+}

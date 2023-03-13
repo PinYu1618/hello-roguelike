@@ -28,23 +28,14 @@ pub mod prelude {
 
 use self::prelude::*;
 
-pub struct GamePlugin;
+pub struct HelloRglkPlugin;
 
-impl Plugin for GamePlugin {
+impl Plugin for HelloRglkPlugin {
     fn build(&self, app: &mut App) {
-        app.add_loopless_state(TurnState::Paused)
+        app.add_loopless_state(AppState::Paused)
             .add_plugin(plugins::SpawnPlugin)
             .add_plugin(plugins::DevPlugin)
-            .add_system(systems::cls.label(ClsSystem))
-            .add_system_set(
-                ConditionSet::new()
-                    .label(DrawSystemSet)
-                    .after(ClsSystem)
-                    .with_system(systems::draw_map)
-                    .with_system(systems::draw_entity)
-                    .with_system(systems::draw_ui)
-                    .into(),
-            )
+            .add_plugin(systems::SystemsPlugin)
             .add_startup_system(setup)
             .add_system(print_state_on_change)
             .add_system(print_camera_on_change);
@@ -59,12 +50,12 @@ fn setup(mut cmds: Commands) {
     cmds.insert_resource(schema.map);
     //cmds.insert_resource(BCamera::new(schema.player_start));
     info!("Setup finished.");
-    cmds.insert_resource(NextState(TurnState::AwaitInput));
+    cmds.insert_resource(NextState(AppState::AwaitInput));
 }
 
 //fn camera_follow(camera_q: Query<&mut Transform, With<Camera>>, player_q: Query<&Position, With<Player>>) {}
 
-fn print_state_on_change(turn_state: Res<CurrentState<TurnState>>) {
+fn print_state_on_change(turn_state: Res<CurrentState<AppState>>) {
     if turn_state.is_changed() {
         info!("{:?}", turn_state);
     }

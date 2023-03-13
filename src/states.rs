@@ -1,5 +1,5 @@
 #[derive(Hash, Copy, Clone, Debug, PartialEq, Eq)]
-pub enum TurnState {
+pub enum AppState {
     Paused,
     AwaitInput,
     PlayerTurn,
